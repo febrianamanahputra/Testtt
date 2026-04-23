@@ -1,4 +1,4 @@
-import { Utensils, Car, Lightbulb, Film, ShoppingBag, HeartPulse, MoreHorizontal, Briefcase, Plus, ArrowUpCircle } from 'lucide-react';
+import { Utensils, Car, Lightbulb, Film, ShoppingBag, HeartPulse, MoreHorizontal, Briefcase, Plus, ArrowUpCircle, Wallet } from 'lucide-react';
 import { Transaction } from '../types';
 import { formatRupiah } from '../lib/utils';
 import { format, parseISO } from 'date-fns';
@@ -13,6 +13,7 @@ const CategoryIcon = ({ category, type }: { category: string; type: string }) =>
     if (category === 'Gaji') return <Briefcase className="w-5 h-5" />;
     if (category === 'Bonus') return <ArrowUpCircle className="w-5 h-5" />;
     if (category === 'Investasi') return <ArrowUpCircle className="w-5 h-5" />;
+    if (category === 'Saldo') return <Wallet className="w-5 h-5" />;
     return <Plus className="w-5 h-5" />;
   }
 

@@ -10,6 +10,6 @@ export interface Transaction {
 }
 
 export const CATEGORIES = {
-  income: ['Gaji', 'Bonus', 'Investasi', 'Lain-lain'],
+  income: ['Gaji', 'Bonus', 'Investasi', 'Saldo', 'Lain-lain'],
   expense: ['Makanan', 'Transportasi', 'Tagihan', 'Hiburan', 'Belanja', 'Kesehatan', 'Lain-lain'],
 };

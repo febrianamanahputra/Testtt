@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Plus, Loader2, AlertCircle } from 'lucide-react';
+import { Plus, Loader2, AlertCircle, Wallet } from 'lucide-react';
 import { Transaction } from './types';
 import { DashboardCards } from './components/DashboardCards';
 import { TransactionList } from './components/TransactionList';
 import { ExpenseChart } from './components/ExpenseChart';
 import { TransactionForm } from './components/TransactionForm';
+import { AddBalanceForm } from './components/AddBalanceForm';
 
 import { db } from './lib/firebase';
 import { collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from 'firebase/firestore';
@@ -12,6 +13,7 @@ import { collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from 
 export default function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isBalanceFormOpen, setIsBalanceFormOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -47,6 +49,7 @@ export default function App() {
         timestamp: serverTimestamp(),
       });
       setIsFormOpen(false);
+      setIsBalanceFormOpen(false);
     } catch (error: any) {
       console.error("Error adding document: ", error);
       if (error.message.includes("Missing or insufficient permissions")) {
@@ -71,13 +74,22 @@ export default function App() {
             </div>
           </div>
           
-          <button
-            onClick={() => setIsFormOpen(true)}
-            className="flex items-center space-x-2 bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 text-white px-4 py-2 rounded-2xl text-sm font-medium transition-colors shadow-sm"
-          >
-            <Plus className="w-4 h-4" />
-            <span className="hidden sm:inline">Tambah Transaksi</span>
-          </button>
+          <div className="flex items-center space-x-2 md:space-x-3">
+            <button
+              onClick={() => setIsBalanceFormOpen(true)}
+              className="flex items-center space-x-2 bg-indigo-500/20 text-indigo-100 border border-indigo-500/30 hover:bg-indigo-500/40 px-4 py-2 rounded-2xl text-sm font-medium transition-colors shadow-sm"
+            >
+              <Wallet className="w-4 h-4" />
+              <span className="hidden sm:inline">Tambah Saldo</span>
+            </button>
+            <button
+              onClick={() => setIsFormOpen(true)}
+              className="flex items-center space-x-2 bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 text-white px-4 py-2 rounded-2xl text-sm font-medium transition-colors shadow-sm"
+            >
+              <Plus className="w-4 h-4" />
+              <span className="hidden sm:inline">Tambah Transaksi</span>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -135,6 +147,14 @@ export default function App() {
         <TransactionForm 
           onClose={() => setIsFormOpen(false)} 
           onSubmit={handleAddTransaction} 
+        />
+      )}
+      
+      {/* Modal Tambah Saldo */}
+      {isBalanceFormOpen && (
+        <AddBalanceForm
+          onClose={() => setIsBalanceFormOpen(false)}
+          onSubmit={handleAddTransaction}
         />
       )}
     </div>
